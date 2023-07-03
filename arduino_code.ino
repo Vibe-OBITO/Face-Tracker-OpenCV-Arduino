@@ -1,23 +1,20 @@
-//Face Tracker using OpenCV and Arduino
-//by Shubham Santosh
+
 
 #include<Servo.h>
 
 Servo x, y;
-int width = 640, height = 480;  // total resolution of the video
-int xpos = 90, ypos = 90;  // initial positions of both Servos
+int width = 640, height = 480;  
+int xpos = 90, ypos = 90; 
 void setup() {
 
   Serial.begin(9600);
   x.attach(9);
   y.attach(10);
-  // Serial.print(width);
-  //Serial.print("\t");
-  //Serial.println(height);
+
   x.write(xpos);
   y.write(ypos);
 }
-const int angle = 2;   // degree of increment or decrement
+const int angle = 2;   
 
 void loop() {
   if (Serial.available() > 0)
@@ -25,13 +22,11 @@ void loop() {
     int x_mid, y_mid;
     if (Serial.read() == 'X')
     {
-      x_mid = Serial.parseInt();  // read center x-coordinate
+      x_mid = Serial.parseInt();  
       if (Serial.read() == 'Y')
-        y_mid = Serial.parseInt(); // read center y-coordinate
+        y_mid = Serial.parseInt(); 
     }
-    /* adjust the servo within the squared region if the coordinates
-        is outside it
-    */
+
     if (x_mid > width / 2 + 30)
       xpos += angle;
     if (x_mid < width / 2 - 30)
@@ -42,7 +37,7 @@ void loop() {
       ypos += angle;
 
 
-    // if the servo degree is outside its range
+
     if (xpos >= 180)
       xpos = 180;
     else if (xpos <= 0)
@@ -55,10 +50,6 @@ void loop() {
     x.write(xpos);
     y.write(ypos);
 
-    // used for testing
-    //Serial.print("\t");
-    // Serial.print(x_mid);
-    // Serial.print("\t");
-    // Serial.println(y_mid);
+
   }
 }
